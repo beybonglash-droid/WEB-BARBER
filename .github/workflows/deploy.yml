@@ -28,7 +28,12 @@ jobs:
           cache: "npm"
 
       - name: Install dependencies
-        run: npm install
+        run: npm install --ignore-scripts
+
+      - name: Run post-install scripts manually
+        run: |
+          npx esbuild --version || true
+          node node_modules/protobufjs/scripts/postinstall || true
 
       - name: Build
         run: npm run build
