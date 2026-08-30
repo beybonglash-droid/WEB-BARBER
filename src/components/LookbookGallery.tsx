@@ -2,6 +2,13 @@ import React, { useState } from 'react';
 import { Sparkles, Eye, Scissors, Award, ChevronLeft, ChevronRight } from 'lucide-react';
 import { GALLERY_ITEMS, BARBERS } from '../data/barberData';
 import { GalleryItem } from '../types';
+import {
+  IMG_GALERIA_1,
+  IMG_GALERIA_2,
+  IMG_GALERIA_3,
+  IMG_LOOKBOOK_ANTES,
+  IMG_LOOKBOOK_DESPUES
+} from '../config/images';
 
 interface LookbookGalleryProps {
   onOpenBooking: () => void;
@@ -46,7 +53,7 @@ export const LookbookGallery: React.FC<LookbookGalleryProps> = ({ onOpenBooking 
             {/* Panel 1: Tijera y Peine */}
             <div className="relative group overflow-hidden h-72 sm:h-80 lg:h-96 border border-[#242526]">
               <img
-                src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&w=800&q=85"
+                src={IMG_GALERIA_1}
                 alt="Corte a Tijera Artesanal"
                 className="w-full h-full object-cover filter grayscale contrast-125 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
               />
@@ -64,7 +71,7 @@ export const LookbookGallery: React.FC<LookbookGalleryProps> = ({ onOpenBooking 
             {/* Panel 2: Máquina y Degradado Fade */}
             <div className="relative group overflow-hidden h-72 sm:h-80 lg:h-96 border border-[#242526]">
               <img
-                src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?auto=format&fit=crop&w=800&q=85"
+                src={IMG_GALERIA_2}
                 alt="Degradado Fade de Precisión"
                 className="w-full h-full object-cover filter grayscale contrast-125 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
               />
@@ -82,7 +89,7 @@ export const LookbookGallery: React.FC<LookbookGalleryProps> = ({ onOpenBooking 
             {/* Panel 3: Navaja Libre y Toalla Caliente */}
             <div className="relative group overflow-hidden h-72 sm:h-80 lg:h-96 border border-[#242526]">
               <img
-                src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&w=800&q=85"
+                src={IMG_GALERIA_3}
                 alt="Afeitado a Navaja y Toalla Caliente"
                 className="w-full h-full object-cover filter grayscale contrast-125 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
               />
@@ -116,7 +123,7 @@ export const LookbookGallery: React.FC<LookbookGalleryProps> = ({ onOpenBooking 
           <div className="relative max-w-2xl mx-auto h-72 sm:h-96 overflow-hidden select-none border border-[#343535]">
             {/* After Image (Right/Full background) */}
             <img
-              src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=1200&q=85"
+              src={IMG_LOOKBOOK_ANTES}
               alt="Después de la transformación"
               className="absolute inset-0 w-full h-full object-cover"
             />
@@ -130,7 +137,7 @@ export const LookbookGallery: React.FC<LookbookGalleryProps> = ({ onOpenBooking 
               style={{ width: `${sliderPosition}%` }}
             >
               <img
-                src="https://images.unsplash.com/photo-1517832606299-7ae9b720a186?auto=format&fit=crop&w=1200&q=85"
+                src={IMG_LOOKBOOK_DESPUES}
                 alt="Antes del servicio"
                 className="absolute inset-0 w-full h-full object-cover max-w-none"
                 style={{ width: '100%', minWidth: '100%' }}

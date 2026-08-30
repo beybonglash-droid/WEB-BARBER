@@ -1,0 +1,51 @@
+﻿# INSTRUCCIONES PARA AGREGAR IMAGENES REALES
+# ===========================================
+# 
+# Cuando tengas las fotos del cliente, coloca cada imagen
+# en su carpeta correspondiente con el nombre exacto indicado.
+# Luego abre el archivo:
+#
+#   src/config/images.ts
+#
+# Y cambia cada URL de Unsplash (https://images.unsplash.com/...)
+# por la ruta local correspondiente (ej: '/images/hero/fondo-hero.jpg')
+#
+# ────────────────────────────────────────────────────────────────
+# CARPETA: logo/
+# ────────────────────────────────────────────────────────────────
+# logo.png             → Logo del negocio (400x400 px, PNG transparente)
+#
+# ────────────────────────────────────────────────────────────────
+# CARPETA: hero/
+# ────────────────────────────────────────────────────────────────
+# fondo-hero.jpg       → Foto principal del banner (2000x1200 px)
+# interior-local.jpg   → Foto interior del local (1200x800 px)
+#
+# ────────────────────────────────────────────────────────────────
+# CARPETA: servicios/
+# ────────────────────────────────────────────────────────────────
+# corte-clasico.jpg    → Foto del servicio Corte Clasico (800x600 px)
+# fade-degradado.jpg   → Foto del servicio Fade/Degradado (800x600 px)
+# corte-barba.jpg      → Foto del servicio Corte + Barba (800x600 px)
+# perfilado-barba.jpg  → Foto del servicio Perfilado de Barba (800x600 px)
+# afeitado-real.jpg    → Foto del servicio Afeitado Real (800x600 px)
+# pack-elite.jpg       → Foto del Pack Caballero Elite (800x600 px)
+#
+# ────────────────────────────────────────────────────────────────
+# CARPETA: barberos/
+# ────────────────────────────────────────────────────────────────
+# mateo-rossi.jpg      → Foto del barbero principal (600x600 px cuadrada)
+# alejandro-vega.jpg   → Foto segundo barbero (600x600 px cuadrada)
+# carlos-mendez.jpg    → Foto tercer barbero (600x600 px cuadrada)
+#
+# ────────────────────────────────────────────────────────────────
+# CARPETA: galeria/
+# ────────────────────────────────────────────────────────────────
+# galeria-1.jpg        → Foto galeria 1 (800x800 px cuadrada)
+# galeria-2.jpg        → Foto galeria 2 (800x800 px cuadrada)
+# galeria-3.jpg        → Foto galeria 3 (800x800 px cuadrada)
+# galeria-4.jpg        → Foto galeria 4 (800x800 px cuadrada)
+# galeria-5.jpg        → Foto galeria 5 (800x800 px cuadrada)
+# galeria-6.jpg        → Foto galeria 6 (800x800 px cuadrada)
+# lookbook-antes.jpg   → Foto ANTES para el slider (1200x800 px)
+# lookbook-despues.jpg → Foto DESPUES para el slider (1200x800 px)

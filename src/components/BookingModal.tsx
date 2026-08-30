@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { X, Check, Calendar, Clock, User, Scissors, Coffee, ArrowRight, ArrowLeft, Sparkles, CheckCircle2, Share2, Download, MessageSquare } from 'lucide-react';
-import confetti from 'canvas-confetti';
+import { X, Check, Clock, Scissors, Coffee, ArrowRight, ArrowLeft, CheckCircle2, MessageSquare } from 'lucide-react';
 import { SERVICES, BARBERS, SHOP_INFO } from '../data/barberData';
-import { ServiceItem, Barber, BookingDetails } from '../types';
+import { ServiceItem, Barber } from '../types';
+import { IMG_HERO_BG } from '../config/images';
 
 interface BookingModalProps {
   isOpen: boolean;
@@ -23,13 +23,8 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   const [selectedDate, setSelectedDate] = useState<string>('');
   const [selectedTime, setSelectedTime] = useState<string>('');
   const [complimentaryDrink, setComplimentaryDrink] = useState<string>('Espresso Italiano');
-  const [clientName, setClientName] = useState<string>('');
-  const [clientPhone, setClientPhone] = useState<string>('');
-  const [clientEmail, setClientEmail] = useState<string>('');
-  const [clientNotes, setClientNotes] = useState<string>('');
-  const [confirmedBooking, setConfirmedBooking] = useState<BookingDetails | null>(null);
 
-  // Available dates generation (next 14 days)
+  // Available dates (next 10 days)
   const availableDates = Array.from({ length: 10 }).map((_, i) => {
     const d = new Date();
     d.setDate(d.getDate() + i);
@@ -47,7 +42,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   });
 
   const timeSlots = [
-    '10:00', '10:45', '11:30', '12:15', '13:00', 
+    '10:00', '10:45', '11:30', '12:15', '13:00',
     '14:00', '15:00', '16:00', '17:00', '18:00', '19:00'
   ];
 
@@ -100,85 +95,37 @@ export const BookingModal: React.FC<BookingModalProps> = ({
     name: 'Cualquier Maestro Barbero Disponible',
     role: 'Asignación Óptima de Turno',
     specialty: 'Todos los especialistas certificados',
-    image: 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=400&q=80'
+    image: IMG_HERO_BG
   };
 
-  const handleConfirmReservation = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!clientName.trim() || !clientPhone.trim()) {
-      alert('Por favor introduce tu nombre y número de WhatsApp');
-      return;
-    }
-
-    const code = `ELT-${Math.floor(1000 + Math.random() * 9000)}`;
-    const newBooking: BookingDetails = {
-      serviceIds: selectedServiceIds,
-      barberId: selectedBarberId,
-      date: selectedDate,
-      time: selectedTime,
-      clientName,
-      clientPhone,
-      clientEmail,
-      notes: clientNotes,
-      complimentaryDrink,
-      totalPrice,
-      totalDuration,
-      bookingCode: code
-    };
-
-    setConfirmedBooking(newBooking);
-    setStep(5); // Success step
-
-    // Confetti effect
-    try {
-      confetti({
-        particleCount: 80,
-        spread: 70,
-        origin: { y: 0.6 },
-        colors: ['#e9c176', '#f3d79b', '#ffffff', '#c5a059']
-      });
-    } catch {
-      // Ignore in iframe if blocked
-    }
-  };
-
-  const handleSendWhatsAppNotification = () => {
-    if (!confirmedBooking) return;
+  // Step 3: open WhatsApp directly with all booking info
+  const handleOpenWhatsApp = () => {
     const servicesNames = selectedServices.map((s) => s.name).join(' + ');
-    const msg = `*RESERVA CONFIRMADA - ELITE BARBER SHOP*\n\n` +
-      `📌 *Código:* ${confirmedBooking.bookingCode}\n` +
-      `👤 *Cliente:* ${confirmedBooking.clientName}\n` +
-      `✂️ *Servicio:* ${servicesNames}\n` +
+    const msg =
+      `*RESERVA DE CITA - ELITE BARBER SHOP*\n\n` +
+      `¡Hola! Quiero reservar una cita con los siguientes datos:\n\n` +
+      `✂️ *Servicio(s):* ${servicesNames}\n` +
       `💈 *Barbero:* ${selectedBarber.name}\n` +
-      `📅 *Fecha:* ${confirmedBooking.date} a las ${confirmedBooking.time} hrs\n` +
-      `🍸 *Bebida de cortesía:* ${confirmedBooking.complimentaryDrink}\n` +
-      `💰 *Total Estimado:* $${confirmedBooking.totalPrice} USD\n\n` +
-      `Por favor confirmar recepción. ¡Nos vemos en el santuario!`;
+      `📅 *Fecha:* ${selectedDate}\n` +
+      `🕐 *Hora:* ${selectedTime} hrs\n` +
+      `⏱️ *Duración estimada:* ${totalDuration} min\n` +
+      `🍸 *Bebida de cortesía:* ${complimentaryDrink}\n` +
+      `💰 *Total Estimado:* $${totalPrice} USD\n\n` +
+      `Por favor confirmar disponibilidad. ¡Gracias!`;
 
     const encoded = encodeURIComponent(msg);
     window.open(`https://wa.me/${SHOP_INFO.whatsappNumber}?text=${encoded}`, '_blank');
+    onClose();
   };
 
   const generateCalendarFile = () => {
-    if (!confirmedBooking) return;
-    const icsContent = `BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:-//Elite Barber Shop//Appointments//ES
-BEGIN:VEVENT
-SUMMARY:Cita Elite Barber Shop - ${selectedServices.map(s => s.name).join(', ')}
-DESCRIPTION:Cita de barbería en Elite Barber Shop. Barbero: ${selectedBarber.name}. Código: ${confirmedBooking.bookingCode}
-LOCATION:${SHOP_INFO.fullAddress}
-DTSTART:${confirmedBooking.date.replace(/-/g, '')}T${confirmedBooking.time.replace(':', '')}00
-DURATION:PT${totalDuration}M
-STATUS:CONFIRMED
-END:VEVENT
-END:VCALENDAR`;
+    const icsContent = `BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Elite Barber Shop//Appointments//ES\nBEGIN:VEVENT\nSUMMARY:Cita Elite Barber Shop - ${selectedServices.map(s => s.name).join(', ')}\nDESCRIPTION:Barbero: ${selectedBarber.name}. Bebida: ${complimentaryDrink}\nLOCATION:${SHOP_INFO.fullAddress}\nDTSTART:${selectedDate.replace(/-/g, '')}T${selectedTime.replace(':', '')}00\nDURATION:PT${totalDuration}M\nSTATUS:CONFIRMED\nEND:VEVENT\nEND:VCALENDAR`;
 
     const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.setAttribute('download', `Cita-EliteBarberShop-${confirmedBooking.bookingCode}.ics`);
+    link.setAttribute('download', `Cita-EliteBarberShop.ics`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -195,19 +142,16 @@ END:VCALENDAR`;
         className="relative w-full max-w-2xl bg-[#121414] border border-[#2d2f30] shadow-[0_10px_40px_rgba(0,0,0,0.9)] overflow-hidden my-auto"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Modal Top Navigation & Progress Header */}
+        {/* Modal Header */}
         <div className="bg-[#161818] px-6 py-4 border-b border-[#242526] flex items-center justify-between">
           <div className="flex items-center gap-3">
             <span className="font-serif text-[#e9c176] font-bold text-lg uppercase tracking-wider">
               Reserva Tu Cita
             </span>
-            {step < 5 && (
-              <span className="text-[11px] text-[#a7a5a5] uppercase tracking-widest font-semibold">
-                Paso {step} de 4
-              </span>
-            )}
+            <span className="text-[11px] text-[#a7a5a5] uppercase tracking-widest font-semibold">
+              Paso {step} de 3
+            </span>
           </div>
-
           <button
             id="close-booking-modal-btn"
             onClick={onClose}
@@ -218,18 +162,16 @@ END:VCALENDAR`;
         </div>
 
         {/* Step Progress Bar */}
-        {step < 5 && (
-          <div className="w-full h-1 bg-[#1a1b1c]">
-            <div
-              className="h-full bg-[#e9c176] transition-all duration-300"
-              style={{ width: `${(step / 4) * 100}%` }}
-            />
-          </div>
-        )}
+        <div className="w-full h-1 bg-[#1a1b1c]">
+          <div
+            className="h-full bg-[#e9c176] transition-all duration-300"
+            style={{ width: `${(step / 3) * 100}%` }}
+          />
+        </div>
 
-        {/* Modal Content Body */}
+        {/* Modal Content */}
         <div className="p-6 max-h-[75vh] overflow-y-auto">
-          
+
           {/* STEP 1: SELECT SERVICES */}
           {step === 1 && (
             <div className="space-y-5">
@@ -283,7 +225,6 @@ END:VCALENDAR`;
                           </span>
                         </div>
                       </div>
-
                       <div className="font-serif text-lg sm:text-xl font-bold text-[#e9c176] shrink-0">
                         ${service.price}
                       </div>
@@ -356,7 +297,6 @@ END:VCALENDAR`;
                           <span className="text-[11px] text-[#a7a5a5]">{barber.specialty}</span>
                         </div>
                       </div>
-
                       {isSelected && (
                         <CheckCircle2 size={18} className="text-[#e9c176] shrink-0" />
                       )}
@@ -367,7 +307,7 @@ END:VCALENDAR`;
             </div>
           )}
 
-          {/* STEP 3: DATE & TIME & VIP AMENITY */}
+          {/* STEP 3: DATE, TIME & DRINK */}
           {step === 3 && (
             <div className="space-y-6">
               <div>
@@ -377,7 +317,23 @@ END:VCALENDAR`;
                 </p>
               </div>
 
-              {/* Horizontal Date Picker Strip */}
+              {/* Booking Summary Box */}
+              <div className="bg-[#161818] border border-[#292a2a] p-4 text-xs space-y-2 rounded-sm">
+                <div className="flex justify-between text-[#d1c5b4]">
+                  <span>Servicio(s):</span>
+                  <strong className="text-[#e3e2e2] text-right">{selectedServices.map(s => s.name).join(', ')}</strong>
+                </div>
+                <div className="flex justify-between text-[#d1c5b4]">
+                  <span>Barbero:</span>
+                  <strong className="text-[#e3e2e2]">{selectedBarber.name}</strong>
+                </div>
+                <div className="flex justify-between pt-2 border-t border-[#242526] text-sm">
+                  <span className="font-bold text-[#e3e2e2]">Total Estimado:</span>
+                  <span className="font-serif font-bold text-lg text-[#e9c176]">${totalPrice} USD</span>
+                </div>
+              </div>
+
+              {/* Date Picker */}
               <div>
                 <span className="text-xs font-bold uppercase tracking-wider text-[#d1c5b4] block mb-2">
                   Día de la Cita
@@ -405,7 +361,7 @@ END:VCALENDAR`;
                 </div>
               </div>
 
-              {/* Time Slots Grid */}
+              {/* Time Slots */}
               <div>
                 <span className="text-xs font-bold uppercase tracking-wider text-[#d1c5b4] block mb-2">
                   Horario Disponible
@@ -431,7 +387,7 @@ END:VCALENDAR`;
                 </div>
               </div>
 
-              {/* Complimentary Drink Selection */}
+              {/* Complimentary Drink */}
               <div className="pt-4 border-t border-[#242526]">
                 <span className="text-xs font-bold uppercase tracking-wider text-[#e9c176] flex items-center gap-1.5 mb-3">
                   <Coffee size={14} />
@@ -455,210 +411,64 @@ END:VCALENDAR`;
                   ))}
                 </div>
               </div>
-            </div>
-          )}
 
-          {/* STEP 4: CUSTOMER DETAILS & REVIEW */}
-          {step === 4 && (
-            <form onSubmit={handleConfirmReservation} className="space-y-6">
-              <div>
-                <h3 className="font-serif text-2xl font-bold text-[#e3e2e2]">Tus Datos de Contacto</h3>
-                <p className="text-xs text-[#a7a5a5] mt-1">
-                  Te enviaremos la confirmación instantánea y recordatorio vía WhatsApp.
-                </p>
-              </div>
-
-              {/* Booking Summary Box */}
-              <div className="bg-[#161818] border border-[#292a2a] p-4 text-xs space-y-2">
-                <div className="flex justify-between text-[#d1c5b4]">
-                  <span>Servicio(s):</span>
-                  <strong className="text-[#e3e2e2] text-right">{selectedServices.map(s => s.name).join(', ')}</strong>
-                </div>
-                <div className="flex justify-between text-[#d1c5b4]">
-                  <span>Barbero:</span>
-                  <strong className="text-[#e3e2e2]">{selectedBarber.name}</strong>
-                </div>
-                <div className="flex justify-between text-[#d1c5b4]">
-                  <span>Fecha y Hora:</span>
-                  <strong className="text-[#e9c176]">{selectedDate} a las {selectedTime} hrs ({totalDuration} min)</strong>
-                </div>
-                <div className="flex justify-between text-[#d1c5b4]">
-                  <span>Bebida:</span>
-                  <strong className="text-[#e3e2e2]">{complimentaryDrink}</strong>
-                </div>
-                <div className="flex justify-between pt-2 border-t border-[#242526] text-sm">
-                  <span className="font-bold text-[#e3e2e2]">Total Estimado:</span>
-                  <span className="font-serif font-bold text-lg text-[#e9c176]">${totalPrice} USD</span>
-                </div>
-              </div>
-
-              {/* Form Fields */}
-              <div className="space-y-4">
+              {/* WhatsApp CTA Info */}
+              <div className="bg-[#0f1a12] border border-[#1e4a2a] p-4 rounded-sm flex items-start gap-3">
+                <MessageSquare size={18} className="text-[#25d366] shrink-0 mt-0.5" />
                 <div>
-                  <label className="block text-[11px] font-bold uppercase tracking-widest text-[#a7a5a5] mb-1">
-                    Nombre Completo *
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="Ej. Rodrigo Santoro"
-                    value={clientName}
-                    onChange={(e) => setClientName(e.target.value)}
-                    className="w-full bg-[#161818] border-b-2 border-[#383939] focus:border-[#e9c176] text-[#e3e2e2] px-3 py-2 text-sm outline-none transition-colors"
-                  />
+                  <p className="text-xs text-[#d1c5b4] leading-relaxed">
+                    Al confirmar, abriremos <strong className="text-[#25d366]">WhatsApp</strong> automáticamente con todos los datos de tu cita pre-escritos. Solo envía el mensaje y listo.
+                  </p>
                 </div>
-
-                <div>
-                  <label className="block text-[11px] font-bold uppercase tracking-widest text-[#a7a5a5] mb-1">
-                    Número de WhatsApp / Teléfono *
-                  </label>
-                  <input
-                    type="tel"
-                    required
-                    placeholder="Ej. +52 55 1234 5678"
-                    value={clientPhone}
-                    onChange={(e) => setClientPhone(e.target.value)}
-                    className="w-full bg-[#161818] border-b-2 border-[#383939] focus:border-[#e9c176] text-[#e3e2e2] px-3 py-2 text-sm outline-none transition-colors"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-[11px] font-bold uppercase tracking-widest text-[#a7a5a5] mb-1">
-                    Correo Electrónico (Opcional)
-                  </label>
-                  <input
-                    type="email"
-                    placeholder="ejemplo@correo.com"
-                    value={clientEmail}
-                    onChange={(e) => setClientEmail(e.target.value)}
-                    className="w-full bg-[#161818] border-b-2 border-[#383939] focus:border-[#e9c176] text-[#e3e2e2] px-3 py-2 text-sm outline-none transition-colors"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-[11px] font-bold uppercase tracking-widest text-[#a7a5a5] mb-1">
-                    Notas o Preferencias Especiales
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Ej. Cuero cabelludo sensible, corte degradado bajo..."
-                    value={clientNotes}
-                    onChange={(e) => setClientNotes(e.target.value)}
-                    className="w-full bg-[#161818] border-b-2 border-[#383939] focus:border-[#e9c176] text-[#e3e2e2] px-3 py-2 text-sm outline-none transition-colors"
-                  />
-                </div>
-              </div>
-            </form>
-          )}
-
-          {/* STEP 5: CONFIRMATION SUCCESS */}
-          {step === 5 && confirmedBooking && (
-            <div className="text-center py-4 space-y-6 animate-in zoom-in-95 duration-300">
-              <div className="w-16 h-16 rounded-full bg-[#e9c176] text-[#121414] flex items-center justify-center mx-auto shadow-[0_0_30px_#e9c176]">
-                <Check size={32} strokeWidth={3} />
-              </div>
-
-              <div>
-                <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#e9c176] block mb-1">
-                  ¡CITA CONFIRMADA CON ÉXITO!
-                </span>
-                <h3 className="font-serif text-3xl font-bold text-[#e3e2e2]">
-                  Te esperamos en el Santuario
-                </h3>
-                <p className="text-xs text-[#a7a5a5] mt-1">
-                  Tu lugar en el sillón ha sido reservado exclusivamente para ti.
-                </p>
-              </div>
-
-              {/* Booking Pass Card */}
-              <div className="bg-[#161818] border-2 border-[#e9c176] p-6 text-left max-w-md mx-auto space-y-3 relative shadow-2xl">
-                <div className="flex justify-between items-start border-b border-[#292a2a] pb-3">
-                  <div>
-                    <span className="text-[10px] uppercase font-bold text-[#a7a5a5] tracking-widest">Código de Cita</span>
-                    <div className="font-serif text-2xl font-bold text-[#e9c176]">{confirmedBooking.bookingCode}</div>
-                  </div>
-                  <div className="text-right">
-                    <span className="text-[10px] uppercase font-bold text-[#a7a5a5] tracking-widest">Total en Sillón</span>
-                    <div className="font-serif text-xl font-bold text-[#e3e2e2]">${confirmedBooking.totalPrice} USD</div>
-                  </div>
-                </div>
-
-                <div className="space-y-1 text-xs text-[#d1c5b4]">
-                  <div><strong>Cliente:</strong> {confirmedBooking.clientName}</div>
-                  <div><strong>Servicios:</strong> {selectedServices.map(s => s.name).join(' + ')}</div>
-                  <div><strong>Maestro:</strong> {selectedBarber.name}</div>
-                  <div><strong>Horario:</strong> {confirmedBooking.date} • {confirmedBooking.time} hrs</div>
-                  <div><strong>Bebida:</strong> {confirmedBooking.complimentaryDrink}</div>
-                  <div><strong>Ubicación:</strong> {SHOP_INFO.address}</div>
-                </div>
-              </div>
-
-              {/* Action Buttons */}
-              <div className="flex flex-col sm:flex-row gap-3 justify-center pt-2">
-                <button
-                  onClick={handleSendWhatsAppNotification}
-                  className="px-6 py-3 bg-[#e9c176] text-[#121414] font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 hover:bg-[#f3d79b]"
-                >
-                  <MessageSquare size={16} />
-                  <span>Enviar Confirmación a WhatsApp</span>
-                </button>
-
-                <button
-                  onClick={generateCalendarFile}
-                  className="px-5 py-3 bg-[#1a1b1c] border border-[#2d2f30] text-[#e3e2e2] hover:border-[#e9c176] font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2"
-                >
-                  <Download size={14} />
-                  <span>Guardar en Calendario (.ics)</span>
-                </button>
               </div>
             </div>
           )}
 
         </div>
 
-        {/* Modal Bottom Controls */}
-        {step < 5 && (
-          <div className="bg-[#161818] px-6 py-4 border-t border-[#242526] flex items-center justify-between">
-            {step > 1 ? (
+        {/* Modal Footer Controls */}
+        <div className="bg-[#161818] px-6 py-4 border-t border-[#242526] flex items-center justify-between">
+          {step > 1 ? (
+            <button
+              type="button"
+              onClick={() => setStep(step - 1)}
+              className="px-4 py-2.5 bg-[#1a1b1c] text-[#a7a5a5] hover:text-white font-bold text-xs uppercase tracking-wider border border-[#292a2a] flex items-center gap-1.5"
+            >
+              <ArrowLeft size={14} />
+              <span>Atrás</span>
+            </button>
+          ) : (
+            <div />
+          )}
+
+          <div className="flex items-center gap-4">
+            <div className="text-right hidden sm:block">
+              <span className="text-[10px] uppercase text-[#a7a5a5] block">Total Estimado</span>
+              <span className="font-serif font-bold text-[#e9c176] text-base">${totalPrice} USD</span>
+            </div>
+
+            {step < 3 ? (
               <button
                 type="button"
-                onClick={() => setStep(step - 1)}
-                className="px-4 py-2.5 bg-[#1a1b1c] text-[#a7a5a5] hover:text-white font-bold text-xs uppercase tracking-wider border border-[#292a2a] flex items-center gap-1.5"
+                onClick={() => setStep(step + 1)}
+                className="px-6 py-2.5 bg-[#e9c176] text-[#121414] font-bold text-xs uppercase tracking-wider flex items-center gap-2 hover:bg-[#f3d79b]"
               >
-                <ArrowLeft size={14} />
-                <span>Atrás</span>
+                <span>Continuar</span>
+                <ArrowRight size={14} />
               </button>
             ) : (
-              <div />
+              <button
+                type="button"
+                id="confirm-whatsapp-booking-btn"
+                onClick={handleOpenWhatsApp}
+                className="px-6 py-2.5 bg-[#25d366] text-white font-bold text-xs uppercase tracking-[0.15em] hover:bg-[#1da851] shadow-[0_0_20px_rgba(37,211,102,0.3)] flex items-center gap-2 transition-all"
+              >
+                <MessageSquare size={15} />
+                <span>Reservar por WhatsApp</span>
+              </button>
             )}
-
-            <div className="flex items-center gap-4">
-              <div className="text-right hidden sm:block">
-                <span className="text-[10px] uppercase text-[#a7a5a5] block">Total Estimado</span>
-                <span className="font-serif font-bold text-[#e9c176] text-base">${totalPrice} USD</span>
-              </div>
-
-              {step < 4 ? (
-                <button
-                  type="button"
-                  onClick={() => setStep(step + 1)}
-                  className="px-6 py-2.5 bg-[#e9c176] text-[#121414] font-bold text-xs uppercase tracking-wider flex items-center gap-2 hover:bg-[#f3d79b]"
-                >
-                  <span>Continuar</span>
-                  <ArrowRight size={14} />
-                </button>
-              ) : (
-                <button
-                  type="button"
-                  onClick={handleConfirmReservation}
-                  className="px-8 py-2.5 bg-[#e9c176] text-[#121414] font-bold text-xs uppercase tracking-[0.15em] hover:bg-[#f3d79b] shadow-[0_0_20px_rgba(233,193,118,0.3)]"
-                >
-                  CONFIRMAR RESERVA
-                </button>
-              )}
-            </div>
           </div>
-        )}
+        </div>
 
       </div>
     </div>

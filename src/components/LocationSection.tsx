@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { MapPin, Clock, Navigation, ExternalLink, Copy, Check, Map as MapIcon, Phone, Car, Coffee, Shield, Sparkles } from 'lucide-react';
 import { SHOP_INFO } from '../data/barberData';
+import { IMG_LOCAL_INTERIOR } from '../config/images';
 
 interface LocationSectionProps {
   onOpenBooking: () => void;
@@ -119,7 +120,7 @@ export const LocationSection: React.FC<LocationSectionProps> = ({ onOpenBooking 
           >
             {/* Background 3-barber montage matching Image 3 */}
             <img
-              src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=1200&q=80"
+              src={IMG_LOCAL_INTERIOR}
               alt="Elite Barber Shop Ubicación"
               className="w-full h-full object-cover filter brightness-50 contrast-125 group-hover:scale-105 transition-transform duration-700"
             />
