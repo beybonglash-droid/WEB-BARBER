@@ -1,5 +1,6 @@
 import React from 'react';
 import { IMG_LOGO } from '../config/images';
+import { SHOP_INFO } from '../data/barberData';
 
 interface EliteLogoProps {
   size?: 'sm' | 'md' | 'lg' | 'xl';
@@ -54,13 +55,14 @@ export const EliteLogo: React.FC<EliteLogoProps> = ({
       {variant === 'full' && (
         <div className="flex flex-col">
           <span className="font-serif text-[#e9c176] tracking-[0.2em] font-bold text-base md:text-lg leading-tight uppercase">
-            Elite Barber Shop
+            {SHOP_INFO.name}
           </span>
           <span className="text-[#a7a5a5] text-[10px] md:text-xs tracking-[0.25em] uppercase font-medium">
-            Santuario del Caballero
+            {SHOP_INFO.subtitle}
           </span>
         </div>
       )}
     </div>
   );
 };
+

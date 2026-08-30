@@ -237,9 +237,9 @@ export const REVIEWS: Review[] = [
 ];
 
 export const SHOP_INFO = {
-  name: 'ELITE BARBER SHOP',
+  name: CONTACT.shopName,
   tagline: 'Tu estilo, nuestra pasión',
-  subtitle: 'Cortes de precisión y barbería tradicional en un santuario diseñado para el caballero moderno.',
+  subtitle: CONTACT.shopSlogan,
 
   // ↓ Datos de contacto — editar en: src/config/contact.ts
   phone:           CONTACT.phone,

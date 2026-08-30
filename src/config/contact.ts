@@ -11,6 +11,12 @@
 export const CONTACT = {
 
   // ------------------------------------------------------------
+  // NOMBRE DE LA BARBERIA
+  // ------------------------------------------------------------
+  shopName: 'ELITE BARBER SHOP',
+  shopSlogan: 'Santuario del Caballero',
+
+  // ------------------------------------------------------------
   // WHATSAPP
   // Formato: codigo de pais + numero SIN espacios ni simbolos
   // Ejemplo Peru (+51): '51948847159'

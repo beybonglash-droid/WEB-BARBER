@@ -170,7 +170,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenBooking }) => 
             {SHOP_INFO.name}
           </div>
           <p className="text-xs text-[#a7a5a5] uppercase tracking-widest font-light">
-            © 2024 ELITE BARBER SHOP. CRAFTED FOR THE MODERN GENTLEMAN.
+            © {new Date().getFullYear()} {SHOP_INFO.name}. CRAFTED FOR THE MODERN GENTLEMAN.
           </p>
         </div>
       </div>
