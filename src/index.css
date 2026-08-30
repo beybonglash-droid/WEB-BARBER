@@ -1,0 +1,60 @@
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Playfair Display", Georgia, serif;
+  --font-sans: "Montserrat", -apple-system, BlinkMacSystemFont, sans-serif;
+  --color-gold-300: #f3d79b;
+  --color-gold-400: #e9c176;
+  --color-gold-500: #c5a059;
+  --color-gold-600: #9e7f3c;
+  --color-charcoal-950: #0d0e0f;
+  --color-charcoal-900: #121414;
+  --color-charcoal-800: #1a1b1c;
+  --color-charcoal-700: #232526;
+  --color-charcoal-600: #2d2f30;
+  --color-charcoal-500: #383939;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  background-color: #121414;
+  color: #e3e2e2;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, .font-serif {
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: #121414;
+}
+::-webkit-scrollbar-thumb {
+  background: #292a2a;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #e9c176;
+}
+
+/* Dotted leader line effect */
+.dotted-leader {
+  background-image: radial-gradient(circle, #6b5f4d 1.2px, transparent 1.2px);
+  background-size: 8px 2px;
+  background-repeat: repeat-x;
+  background-position: bottom 7px center;
+}
+
+/* Subtle gold glow */
+.gold-glow {
+  box-shadow: 0 0 25px rgba(233, 193, 118, 0.15);
+}
+
+.gold-border-glow {
+  box-shadow: inset 0 0 15px rgba(233, 193, 118, 0.08);
+}

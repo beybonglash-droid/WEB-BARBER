@@ -1,0 +1,6 @@
+{
+  "name": "Elite Barber Shop",
+  "description": "Exclusiva barbería de lujo y tradición para el caballero moderno. Cortes de precisión, perfilado de barba, rituales y reserva en línea.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
