@@ -1,4 +1,4 @@
-﻿// ================================================================
+// ================================================================
 //  CONFIGURACION DE CONTACTO Y REDES SOCIALES
 //  Archivo: src/config/contact.ts
 // ================================================================
@@ -21,6 +21,7 @@ export const CONTACT = {
   // Formato: codigo de pais + numero SIN espacios ni simbolos
   // Ejemplo Peru (+51): '51948847159'
   // Ejemplo Mexico (+52): '525512345678'
+
   // ------------------------------------------------------------
   whatsappNumber: '51948847159',
 
@@ -42,9 +43,14 @@ export const CONTACT = {
   // ------------------------------------------------------------
   // DATOS DEL LOCAL
   // ------------------------------------------------------------
-  address: 'Av. Principal 123, Centro Historico',
-  cityState: 'Lima, Peru',
+  address: '14010, Monsefú 14831',
+  cityState: 'Chiclayo Lambayeque, Peru',
   fullAddress: 'Av. Principal 123, Centro Historico, Lima, Peru',
+  
+  // URL exacta de Google Maps (Coordenadas o link de compartir)
+  // Ejemplo: 'https://maps.app.goo.gl/...' o 'https://www.google.com/maps/place/...'
+  // Si lo dejas vacío (''), buscará por texto en el mapa
+  mapUrl: '',
 
   // ------------------------------------------------------------
   // HORARIOS

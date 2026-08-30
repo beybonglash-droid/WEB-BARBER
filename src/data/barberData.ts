@@ -247,6 +247,7 @@ export const SHOP_INFO = {
   address:         CONTACT.address,
   cityState:       CONTACT.cityState,
   fullAddress:     CONTACT.fullAddress,
+  mapUrl:          CONTACT.mapUrl,
   hours:           CONTACT.hours,
   social:          CONTACT.social,
 
