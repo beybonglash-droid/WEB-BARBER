@@ -23,7 +23,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       <div className="absolute inset-0 z-0">
         <img
           src={IMG_HERO_BG}
-          alt="Elite Barber Shop Sanctuary Interior"
+          alt={`${SHOP_INFO.name} Sanctuary Interior`}
           className="w-full h-full object-cover object-center filter brightness-[0.25] contrast-[1.1] scale-105 transition-transform duration-10000 ease-out"
         />
         {/* Layered Obsidian & Brass Gradient overlays */}
@@ -37,7 +37,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         {/* Live Status & Star Badge */}
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-[#1a1b1c]/90 border border-[#2d2f30] text-[#e9c176] text-xs font-semibold uppercase tracking-[0.2em] mb-6 backdrop-blur-sm shadow-lg">
           <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-          <span>Santuario Abierto Hoy • 10:00 - 20:00</span>
+          <span>Santuario Abierto Hoy • {SHOP_INFO.hours.weekdays}</span>
         </div>
 
         {/* Star Icon in Golden Circle (Faithful to Image 3) */}

@@ -179,7 +179,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 </div>
                 <div className="flex items-center gap-2">
                   <Clock size={13} className="text-[#e9c176] shrink-0" />
-                  <span>Lun - Sáb: 10:00 - 20:00</span>
+                  <span>{SHOP_INFO.hours.weekdays}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Phone size={13} className="text-[#e9c176] shrink-0" />

@@ -27,11 +27,11 @@ export const WhatsAppModal: React.FC<WhatsAppModalProps> = ({ isOpen, onClose })
     const nameStr = userName.trim() ? `Mi nombre es ${userName}.` : '';
 
     if (selectedTopic === 'booking') {
-      text = `Hola Elite Barber Shop! ${nameStr} Quisiera agendar una cita para el servicio de *${preferredService}*. ¿Qué horarios tienen disponibles hoy o mañana?`;
+      text = `Hola ${SHOP_INFO.name}! ${nameStr} Quisiera agendar una cita para el servicio de *${preferredService}*. ¿Qué horarios tienen disponibles hoy o mañana?`;
     } else if (selectedTopic === 'events') {
-      text = `Hola Elite Barber Shop! ${nameStr} Me gustaría solicitar información sobre paquetes de boda / eventos VIP en el santuario.`;
+      text = `Hola ${SHOP_INFO.name}! ${nameStr} Me gustaría solicitar información sobre paquetes de boda / eventos VIP en el santuario.`;
     } else {
-      text = `Hola Elite Barber Shop! ${nameStr} ${customMessage || 'Deseo consultar sobre disponibilidad y servicios.'}`;
+      text = `Hola ${SHOP_INFO.name}! ${nameStr} ${customMessage || 'Deseo consultar sobre disponibilidad y servicios.'}`;
     }
 
     const encoded = encodeURIComponent(text);

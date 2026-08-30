@@ -102,7 +102,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   const handleOpenWhatsApp = () => {
     const servicesNames = selectedServices.map((s) => s.name).join(' + ');
     const msg =
-      `*RESERVA DE CITA - ELITE BARBER SHOP*\n\n` +
+      `*RESERVA DE CITA - ${SHOP_INFO.name.toUpperCase()}*\n\n` +
       `¡Hola! Quiero reservar una cita con los siguientes datos:\n\n` +
       `✂️ *Servicio(s):* ${servicesNames}\n` +
       `💈 *Barbero:* ${selectedBarber.name}\n` +
@@ -119,13 +119,13 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   };
 
   const generateCalendarFile = () => {
-    const icsContent = `BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Elite Barber Shop//Appointments//ES\nBEGIN:VEVENT\nSUMMARY:Cita Elite Barber Shop - ${selectedServices.map(s => s.name).join(', ')}\nDESCRIPTION:Barbero: ${selectedBarber.name}. Bebida: ${complimentaryDrink}\nLOCATION:${SHOP_INFO.fullAddress}\nDTSTART:${selectedDate.replace(/-/g, '')}T${selectedTime.replace(':', '')}00\nDURATION:PT${totalDuration}M\nSTATUS:CONFIRMED\nEND:VEVENT\nEND:VCALENDAR`;
+    const icsContent = `BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//${SHOP_INFO.name}//Appointments//ES\nBEGIN:VEVENT\nSUMMARY:Cita ${SHOP_INFO.name} - ${selectedServices.map(s => s.name).join(', ')}\nDESCRIPTION:Barbero: ${selectedBarber.name}. Bebida: ${complimentaryDrink}\nLOCATION:${SHOP_INFO.fullAddress}\nDTSTART:${selectedDate.replace(/-/g, '')}T${selectedTime.replace(':', '')}00\nDURATION:PT${totalDuration}M\nSTATUS:CONFIRMED\nEND:VEVENT\nEND:VCALENDAR`;
 
     const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.setAttribute('download', `Cita-EliteBarberShop.ics`);
+    link.setAttribute('download', `Cita-${SHOP_INFO.name.replace(/\s+/g, '')}.ics`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

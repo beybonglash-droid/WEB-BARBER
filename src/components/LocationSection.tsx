@@ -131,7 +131,7 @@ export const LocationSection: React.FC<LocationSectionProps> = ({ onOpenBooking 
             {/* Background 3-barber montage matching Image 3 */}
             <img
               src={IMG_LOCAL_INTERIOR}
-              alt="Elite Barber Shop Ubicación"
+              alt={`${SHOP_INFO.name} Ubicación`}
               className="w-full h-full object-cover filter brightness-50 contrast-125 group-hover:scale-105 transition-transform duration-700"
             />
             
@@ -192,7 +192,7 @@ export const LocationSection: React.FC<LocationSectionProps> = ({ onOpenBooking 
                 Calle de la Tradición
               </span>
 
-              {/* Pin for Elite Barber Shop */}
+              {/* Pin for ${SHOP_INFO.name} */}
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 flex flex-col items-center cursor-pointer">
                 <div className="relative">
                   <div className="w-12 h-12 rounded-full bg-[#e9c176] text-[#121414] flex items-center justify-center font-bold shadow-[0_0_30px_#e9c176] animate-pulse">
@@ -201,7 +201,7 @@ export const LocationSection: React.FC<LocationSectionProps> = ({ onOpenBooking 
                   <span className="absolute -inset-2 rounded-full border border-[#e9c176] animate-ping opacity-75" />
                 </div>
                 <div className="bg-[#121414] border border-[#e9c176] px-3 py-1 text-xs font-bold text-[#e9c176] uppercase tracking-wider mt-2 shadow-2xl">
-                  ELITE BARBER SHOP #123
+                  {SHOP_INFO.name.toUpperCase()}
                 </div>
               </div>
 
