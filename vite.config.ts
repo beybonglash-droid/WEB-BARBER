@@ -5,8 +5,8 @@ import {defineConfig} from 'vite';
 
 export default defineConfig(() => {
   return {
-    // Base path para GitHub Pages: https://webnuva2026.github.io/web-barberia/
-    base: '/web-barberia/',
+    // Base path para GitHub Pages: https://beybonglash-droid.github.io/WEB-BARBER/
+    base: '/WEB-BARBER/',
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: {
