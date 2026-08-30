@@ -21,7 +21,11 @@ export const LocationSection: React.FC<LocationSectionProps> = ({ onOpenBooking 
   const handleOpenExternalMap = (provider: 'google' | 'apple' | 'waze') => {
     // Si hay una URL exacta provista en la config, la usamos para Google Maps
     if (provider === 'google' && SHOP_INFO.mapUrl && SHOP_INFO.mapUrl.trim() !== '') {
-      window.open(SHOP_INFO.mapUrl, '_blank');
+      let url = SHOP_INFO.mapUrl.trim();
+      if (!url.startsWith('http')) {
+        url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(url)}`;
+      }
+      window.open(url, '_blank');
       return;
     }
 
