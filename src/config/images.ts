@@ -1,4 +1,4 @@
-﻿/**
+/**
  * ============================================================
  *  CONFIGURACION CENTRAL DE IMAGENES — ELITE BARBER SHOP
  * ============================================================
@@ -39,7 +39,7 @@
  */
 
 // LOGO
-export const IMG_LOGO = '/images/logo/logo.png';
+export const IMG_LOGO = `${import.meta.env.BASE_URL}images/logo/logo.png`;
 // Temporal: reemplazar con logo real del cliente
 
 // HERO / FONDO PRINCIPAL (2000x1200px recomendado)
