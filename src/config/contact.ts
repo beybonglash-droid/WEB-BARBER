@@ -1,4 +1,4 @@
-// ================================================================
+﻿// ================================================================
 //  CONFIGURACION DE CONTACTO Y REDES SOCIALES
 //  Archivo: src/config/contact.ts
 // ================================================================
@@ -13,7 +13,7 @@ export const CONTACT = {
   // ------------------------------------------------------------
   // NOMBRE DE LA BARBERIA
   // ------------------------------------------------------------
-  shopName: 'Barberia Top Xander',
+  shopName: 'BARBERIA TOP XANDER.',
   shopSlogan: 'Santuario del Caballero',
 
   // ------------------------------------------------------------
@@ -56,8 +56,8 @@ export const CONTACT = {
   // HORARIOS
   // ------------------------------------------------------------
   hours: {
-    weekdays: 'Lunes a Sabado: 10:00 - 20:00',
-    sunday: 'Domingo: 11:00 - 16:00',
+    weekdays: 'Lunes a Sabado: 09:00 - 20:00',
+    sunday: 'Domingo: CERRADO',
   },
 
 };
